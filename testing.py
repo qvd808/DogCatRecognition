@@ -1,23 +1,27 @@
+import os, random
+import tensorflow as tf
+import numpy as np
+
+
+
+path = "./test-images-resize"
+dir_to_model = "./save-models/model_0/Dog-cat-recognition.h5"
+
+model = tf.keras.models.load_model(dir_to_model)
+# model.summary()
+
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 
-X1 = [1,2,3,4,5]
-Y1 =  [2,4,6,8,10]
+images_dir = os.listdir(path)
+images = []
+for i in images_dir:
+    i = path + "/" + i
+    images.append(mpimg.imread(i))
 
-plt.plot(X1, Y1, label = "plot 1")
-plt.xlabel("X-axis")
-plt.ylabel("Y-axis")
-plt.title("Testing")
-plt.legend()
+images = np.array(images).reshape(-1, 150, 150, 3)
+prediction = model.predict(images)
 
-plt.savefig('./sort-folder/testing.jpg', bbox_inches = "tight", dpi = 150)
-plt.show()
-
-import datetime
-x = datetime.datetime.now()
-with open('./sort-folder/Report.txt', 'w') as f:
-    f.write(str(x) + '\n')
-    f.write(str(x))
-
-import shutil,os
-
-shutil.copy(os.path.basename(__file__), "./sort-folder")
+for i in range(len(images_dir)):
+    print(images_dir[i] + " is " + " cats" if (prediction[i] < 0.1) else images_dir[i] + " is " + " dogs", end = " - ")
+    print(prediction[i])

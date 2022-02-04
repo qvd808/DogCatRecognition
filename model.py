@@ -1,5 +1,5 @@
 ##Preprocess the image
-from bitarray import test
+# from bitarray import test
 from keras.preprocessing.image import ImageDataGenerator
 
 train_data_dir = "./sort-folder"
@@ -50,7 +50,7 @@ import os, shutil
 if (not os.path.exists("./save-models")):
     os.mkdir("./save-models")
 
-size = len(len(next(os.walk('dir_name'))[1]))
+size = len(next(os.walk('./save-models'))[1])
 dir = "./save-models/model_" + str(size)
 os.mkdir(dir)
 
